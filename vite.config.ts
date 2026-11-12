@@ -3,7 +3,6 @@ import { defineConfig } from 'vite-plus';
 export default defineConfig({
   lint: {
     plugins: ['typescript', 'unicorn', 'oxc', 'import'],
-    ignorePatterns: ['**/drizzle/**', '**/next-env.d.ts'],
     options: {
       typeAware: true,
       typeCheck: true,
