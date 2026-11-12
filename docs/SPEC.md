@@ -161,7 +161,7 @@ The image pipeline comes first because it is the riskiest part. Once a photo goe
 - [x] Bun monorepo: `apps/web` (Next.js), `packages/db`, `packages/images`, `packages/ui`
 - [x] Vite+ (`vp check`, `vp test`), strict TypeScript, Zod-validated env
 - [x] `CLAUDE.md` and `docs/SPEC.md` committed at the repo root
-- [ ] GitHub Actions: install, check, test on every PR; Vercel previews connected
+- [x] GitHub Actions: install, check, test on every PR; Vercel previews connected
 - [x] Drizzle schema for `sites`, `photos`, `photo_variants`, `series`, `series_photos` with `site_id`; first migration
 
 **Step 2 · Image pipeline (1–2 weekends)**
