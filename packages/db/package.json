@@ -1,0 +1,21 @@
+{
+  "name": "@luna/db",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./schema": "./src/schema.ts"
+  },
+  "scripts": {
+    "generate": "drizzle-kit generate",
+    "migrate": "drizzle-kit migrate",
+    "check": "drizzle-kit check"
+  },
+  "dependencies": {
+    "drizzle-orm": "^0.45.4",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "drizzle-kit": "^0.31.11"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "name": "@luna/images",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  }
+}
