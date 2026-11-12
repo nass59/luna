@@ -2,6 +2,7 @@ import type { NextConfig } from 'next';
 
 const config: NextConfig = {
   cacheComponents: true,
+  partialPrefetching: true,
   // Types are checked by `vp check` (tsgo); no second pass during build.
   typescript: { ignoreBuildErrors: true },
 };
