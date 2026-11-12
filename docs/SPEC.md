@@ -310,7 +310,7 @@ There are three environments, each with its own database branch, buckets and Tri
 1. `bun install --frozen-lockfile`
 2. `vp check`: lint, format, types
 3. `vp test`: unit, pipeline and integration tests
-4. `drizzle-kit check`, so migrations match the schema
+4. `drizzle-kit check` (migration files consistent), then `drizzle-kit generate` must produce no new files (migrations match the schema)
 5. Wait for the Vercel preview, then run Playwright, axe and Lighthouse CI against it
 6. On merge: `drizzle-kit migrate` runs before Vercel promotes the build, then Trigger.dev tasks deploy
 

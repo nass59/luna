@@ -1,7 +1,11 @@
+# CI: every PR (and every push to main) must pass format, lint, types, tests
+# and the migration check before it can be merged.
 name: CI
 
 on:
+  # Any PR, whatever its target branch.
   pull_request:
+  # Pushes to main, i.e. after a merge, so main itself is always verified.
   push:
     branches: [main]
 
@@ -9,17 +13,47 @@ jobs:
   check:
     runs-on: ubuntu-latest
     env:
-      # drizzle-kit loads the config (and its env schema) even for offline checks
+      # drizzle-kit loads drizzle.config.ts, which Zod-validates DATABASE_URL even for
+      # offline commands like `check`. A dummy URL is enough: nothing connects to it.
       DATABASE_URL: postgres://ci:ci@localhost:5432/ci
     steps:
+      # Clone the repo into the runner.
       - uses: actions/checkout@v5
+
+      # Install the global `vp` CLI and the Node version from .node-version.
+      # `vp` then delegates to the vite-plus version pinned in package.json, and
+      # picks bun from the "packageManager" field. `cache: true` caches bun's
+      # package cache, keyed on bun.lock.
       - uses: voidzero-dev/setup-vp@v1.9.0
         with:
           node-version-file: .node-version
           cache: true
-          run-install: false
-      - run: bun install --frozen-lockfile
+          run-install: false # we install ourselves below, with --frozen-lockfile
+
+      # `bun install --frozen-lockfile` under the hood: fails if package.json and
+      # bun.lock disagree, instead of silently updating the lockfile.
+      - run: vp install --frozen-lockfile
+
+      # Format check (Oxfmt), lint (Oxlint) and type check (tsgo), whole workspace.
       - run: vp check
+
+      # Vitest over {apps,packages}/*/src/**/*.test.ts.
       - run: vp test
-      - run: bunx drizzle-kit check
+
+      # Ensures the migration files in packages/db/drizzle are consistent
+      # (no conflicting or broken snapshots). Runs offline.
+      - run: vp exec drizzle-kit check
         working-directory: packages/db
+
+      # Ensures schema.ts and the migrations agree: if someone changed the schema
+      # but forgot `drizzle-kit generate`, generating here creates a new file and
+      # the job fails. `git status` (not `git diff`) so new untracked files count.
+      - name: Migrations match schema
+        working-directory: packages/db
+        run: |
+          vp exec drizzle-kit generate
+          if [ -n "$(git status --porcelain drizzle)" ]; then
+            git status --porcelain drizzle
+            echo "::error::Schema changed without a migration. Run 'bunx drizzle-kit generate' in packages/db and commit the result."
+            exit 1
+          fi
