@@ -193,9 +193,10 @@ The image pipeline comes first because it is the riskiest part. Once a photo goe
 
 **Step 0 · Decisions and accounts (about an evening)**
 
-- [ ] Pick a working name and buy the domain (a placeholder is fine)
-- [ ] Create accounts: GitHub, Vercel, Neon (EU), Cloudflare R2 (`originals-dev`, `public-dev`), Trigger.dev, Sentry, Backblaze B2
-- [ ] Choose 20–30 fixture photos: a vertical shot, one with GPS, one wide-gamut file, one very large file
+- [x] Pick a working name and buy the domain (a placeholder is fine)
+- [x] Create accounts: GitHub, Vercel, Neon (EU), Cloudflare R2 (`originals-dev`, `public-dev`), Trigger.dev
+- [ ] Sentry (EU region) and Backblaze B2 (EU Central): deferred to Step 3, first used by the production deploy
+- [x] Choose 20–30 fixture photos: a vertical shot, one with GPS, one wide-gamut file, one very large file
 
 **Step 1 · Project skeleton (about one weekend)**
 
