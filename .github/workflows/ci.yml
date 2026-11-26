@@ -16,6 +16,7 @@ jobs:
       # drizzle-kit loads drizzle.config.ts, which Zod-validates DATABASE_URL even for
       # offline commands like `check`. A dummy URL is enough: nothing connects to it.
       DATABASE_URL: postgres://ci:ci@localhost:5432/ci
+      DATABASE_URL_UNPOOLED: postgres://ci:ci@localhost:5432/ci
     steps:
       # Clone the repo into the runner.
       - uses: actions/checkout@v5
